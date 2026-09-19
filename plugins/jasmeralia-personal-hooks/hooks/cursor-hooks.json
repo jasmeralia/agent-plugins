@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/memory-vs-agents-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:odoo_update_record",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/odoo-task-close-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:odoo_post_message",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/validate_odoo_html.py"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:odoo_update_record",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/validate_odoo_html.py"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:odoo_create_record",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/validate_odoo_html.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Shell",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/ec2-destructive-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Shell",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/truenas-docker-crontab-guard.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

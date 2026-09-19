@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "MCP:(jira_create_issue|jira_update_issue|jira_add_comment|jira_edit_comment|confluence_create_page|confluence_update_page|confluence_update_page_section|confluence_add_comment|confluence_add_inline_comment|confluence_reply_to_comment)",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/validate-atlassian-markdown.py"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:list_incidents",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/remind-pd-list-incidents.py"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:(get_past_incidents|get_related_incidents)",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/remind-pd-historical-incidents.py"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:add_note_to_incident",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-pagerduty-note-format.py"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:(jira_create_issue|jira_update_issue)",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-jira-priority-default.py"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:jira_transition_issue",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-jira-devops-workflow-reassign.py"
+          }
+        ]
+      },
+      {
+        "matcher": "MCP:search",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-kibana-index-scope.py"
+          }
+        ]
+      }
+    ]
+  }
+}

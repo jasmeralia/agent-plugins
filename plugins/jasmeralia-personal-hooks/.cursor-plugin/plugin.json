@@ -1,0 +1,6 @@
+{
+  "name": "jasmeralia-personal-hooks",
+  "description": "Morgan/Jasmeralia's personal-infra and workflow-policy guard hooks",
+  "version": "0.1.0",
+  "hooks": "./hooks/cursor-hooks.json"
+}

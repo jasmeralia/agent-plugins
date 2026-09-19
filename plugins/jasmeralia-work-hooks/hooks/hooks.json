@@ -1,0 +1,76 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__mcp-atlassian__jira_create_issue|mcp__mcp-atlassian__jira_update_issue|mcp__mcp-atlassian__jira_add_comment|mcp__mcp-atlassian__jira_edit_comment|mcp__mcp-atlassian__confluence_create_page|mcp__mcp-atlassian__confluence_update_page|mcp__mcp-atlassian__confluence_update_page_section|mcp__mcp-atlassian__confluence_add_comment|mcp__mcp-atlassian__confluence_add_inline_comment|mcp__mcp-atlassian__confluence_reply_to_comment",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/validate-atlassian-markdown.py",
+            "statusMessage": "Checking Jira/Confluence markdown formatting..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__pagerduty-mcp__list_incidents",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/remind-pd-list-incidents.py",
+            "statusMessage": "Checking PagerDuty list_incidents scoping..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__pagerduty-mcp__get_past_incidents|mcp__pagerduty-mcp__get_related_incidents",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/remind-pd-historical-incidents.py",
+            "statusMessage": "Checking PagerDuty historical-incidents availability..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__pagerduty-mcp__add_note_to_incident",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/check-pagerduty-note-format.py",
+            "statusMessage": "Checking PagerDuty note format..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__mcp-atlassian__jira_create_issue|mcp__mcp-atlassian__jira_update_issue",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/check-jira-priority-default.py",
+            "statusMessage": "Checking Jira sub-task priority default..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__mcp-atlassian__jira_transition_issue",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/check-jira-devops-workflow-reassign.py",
+            "statusMessage": "Checking DEVOPS Jira workflow reassignment..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__kibana-mcp__search",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/check-kibana-index-scope.py",
+            "statusMessage": "Checking Kibana index scope..."
+          }
+        ]
+      }
+    ]
+  }
+}

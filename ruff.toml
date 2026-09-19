@@ -1,0 +1,7 @@
+# Pin an explicit rule selection so `make lint` is deterministic regardless
+# of which ruff version is installed locally vs in CI - ruff's own "default"
+# rule set has changed between minor versions (e.g. 0.15 vs 0.16), which
+# otherwise makes lint results depend on ambient tooling versions rather
+# than this repo's own configuration.
+[lint]
+select = ["E4", "E7", "E9", "F"]

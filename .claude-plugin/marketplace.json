@@ -1,0 +1,28 @@
+{
+  "name": "agent-plugins",
+  "owner": {
+    "name": "Morgan Blackthorne"
+  },
+  "plugins": [
+    {
+      "name": "jasmeralia-general-hooks",
+      "source": "./plugins/jasmeralia-general-hooks",
+      "description": "Universal shell/git/tooling hygiene hooks - no personal or employer specifics"
+    },
+    {
+      "name": "jasmeralia-personal-hooks",
+      "source": "./plugins/jasmeralia-personal-hooks",
+      "description": "Morgan/Jasmeralia's personal-infra and workflow-policy guard hooks (TrueNAS, EC2, Odoo, memory policy, global CLAUDE.md tracking)"
+    },
+    {
+      "name": "jasmeralia-work-hooks",
+      "source": "./plugins/jasmeralia-work-hooks",
+      "description": "Jira/Confluence/PagerDuty/Kibana workflow guard hooks"
+    },
+    {
+      "name": "jasmeralia-nonbinary-hooks",
+      "source": "./plugins/jasmeralia-nonbinary-hooks",
+      "description": "Pronoun-slip guard for nonbinary people and nonbinary plugin users"
+    }
+  ]
+}

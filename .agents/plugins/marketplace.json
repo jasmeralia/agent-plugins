@@ -1,0 +1,25 @@
+{
+  "name": "agent-plugins",
+  "plugins": [
+    {
+      "name": "jasmeralia-general-hooks",
+      "source": { "path": "./plugins/jasmeralia-general-hooks" },
+      "category": "hooks"
+    },
+    {
+      "name": "jasmeralia-personal-hooks",
+      "source": { "path": "./plugins/jasmeralia-personal-hooks" },
+      "category": "hooks"
+    },
+    {
+      "name": "jasmeralia-work-hooks",
+      "source": { "path": "./plugins/jasmeralia-work-hooks" },
+      "category": "hooks"
+    },
+    {
+      "name": "jasmeralia-nonbinary-hooks",
+      "source": { "path": "./plugins/jasmeralia-nonbinary-hooks" },
+      "category": "hooks"
+    }
+  ]
+}
