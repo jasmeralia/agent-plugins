@@ -56,9 +56,12 @@ different code path from Cursor's Claude-`settings.json` import shim).
 ## Linting
 
 ```
-make lint      # shellcheck + ruff + JSON syntax (+ yamllint once any YAML exists)
+make lint      # shellcheck + ruff + JSON syntax + yamllint
 make validate  # claude plugin validate for every plugin
 ```
+
+CI runs `make lint` on every PR and on push to `master` (see
+`.github/workflows/lint.yml`).
 
 ## License
 
