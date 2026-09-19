@@ -12,8 +12,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install ruff and yamllint
-        run: pip install ruff yamllint
-
       - name: make lint
         run: make lint

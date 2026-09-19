@@ -60,7 +60,11 @@ make lint      # shellcheck + ruff + JSON syntax + yamllint
 make validate  # claude plugin validate for every plugin
 ```
 
-CI runs `make lint` on every PR and on push to `master` (see
+`make lint` bootstraps its own `.venv/` with pinned `ruff`/`yamllint`
+versions from `requirements-dev.txt` (requires `python3`, `shellcheck`, and
+`jq` on PATH already) - no manual setup needed, and results are the same
+locally and in CI regardless of what's globally installed. CI runs
+`make lint` on every PR and on push to `master` (see
 `.github/workflows/lint.yml`).
 
 ## License
