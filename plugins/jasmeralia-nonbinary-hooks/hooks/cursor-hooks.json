@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-pronoun-slip.py"
+          }
+        ]
+      }
+    ]
+  }
+}

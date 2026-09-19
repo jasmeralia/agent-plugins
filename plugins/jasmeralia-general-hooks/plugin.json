@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "jasmeralia-general-hooks",
+  "version": "0.1.0",
+  "description": "Universal shell/git/tooling hygiene hooks - no personal or employer specifics",
+  "author": {
+    "name": "Morgan Blackthorne"
+  },
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/hooks.json"
+    }
+  }
+}

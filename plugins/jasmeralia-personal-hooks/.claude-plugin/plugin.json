@@ -1,0 +1,9 @@
+{
+  "name": "jasmeralia-personal-hooks",
+  "description": "Morgan/Jasmeralia's personal-infra and workflow-policy guard hooks (TrueNAS, EC2, Odoo, memory policy, global CLAUDE.md tracking)",
+  "version": "0.1.0",
+  "author": {
+    "name": "Morgan Blackthorne"
+  },
+  "hooks": "./hooks/hooks.json"
+}

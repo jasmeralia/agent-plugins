@@ -1,0 +1,89 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/memory-vs-agents-guard.sh",
+            "statusMessage": "Checking memory write against AGENTS.md policy..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__odoo__update_record",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/odoo-task-close-guard.sh",
+            "statusMessage": "Checking project.task stage/state..."
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__odoo__post_message|mcp__odoo__update_record|mcp__odoo__create_record",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/validate_odoo_html.py",
+            "statusMessage": "Validating Odoo chatter HTML..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/ec2-destructive-guard.sh",
+            "statusMessage": "Checking for destructive EC2 commands..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/truenas-docker-crontab-guard.sh",
+            "statusMessage": "Checking for raw docker/crontab on TrueNAS..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/claude-md-diff-check.sh",
+            "statusMessage": "Checking for CLAUDE.md updates..."
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/webfetch-auth-wall-reminder.sh",
+            "statusMessage": "Checking WebFetch result for an auth wall..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/claude-md-baseline.sh",
+            "statusMessage": "Recording CLAUDE.md baseline..."
+          }
+        ]
+      }
+    ]
+  }
+}

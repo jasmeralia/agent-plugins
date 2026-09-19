@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "Shell",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-bash-gotchas.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-typography.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Shell",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-secret-decrypt.py"
+          }
+        ]
+      }
+    ],
+    "postToolUse": [
+      {
+        "matcher": "Shell",
+        "hooks": [
+          {
+            "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/check-pr-description-stale.py"
+          }
+        ]
+      }
+    ]
+  }
+}

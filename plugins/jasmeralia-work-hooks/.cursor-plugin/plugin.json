@@ -1,0 +1,6 @@
+{
+  "name": "jasmeralia-work-hooks",
+  "description": "Jira/Confluence/PagerDuty/Kibana workflow guard hooks",
+  "version": "0.1.0",
+  "hooks": "./hooks/cursor-hooks.json"
+}

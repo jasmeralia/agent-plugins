@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "jasmeralia-personal-hooks",
+  "version": "0.1.0",
+  "description": "Morgan/Jasmeralia's personal-infra and workflow-policy guard hooks (TrueNAS, EC2, Odoo, memory policy, global CLAUDE.md tracking)",
+  "author": {
+    "name": "Morgan Blackthorne"
+  },
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/hooks.json"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "jasmeralia-general-hooks",
+  "description": "Universal shell/git/tooling hygiene hooks - no personal or employer specifics",
+  "version": "0.1.0",
+  "author": {
+    "name": "Morgan Blackthorne"
+  },
+  "hooks": "./hooks/hooks.json"
+}

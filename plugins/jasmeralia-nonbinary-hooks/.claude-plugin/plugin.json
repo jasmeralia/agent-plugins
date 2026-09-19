@@ -1,0 +1,9 @@
+{
+  "name": "jasmeralia-nonbinary-hooks",
+  "description": "Pronoun-slip guard for nonbinary people and nonbinary plugin users",
+  "version": "0.1.0",
+  "author": {
+    "name": "Morgan Blackthorne"
+  },
+  "hooks": "./hooks/hooks.json"
+}
