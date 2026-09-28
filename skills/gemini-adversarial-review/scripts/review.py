@@ -235,15 +235,15 @@ def run_review(selection, model, timeout, agy, deep):
         write_snapshot(snapshot, selection)
         prompt = RUBRIC.read_text() + "\n\n"
         prompt += f"Scope: {selection['scope']}\nChanged paths: {selection['changed_paths']}\n"
-        prompt += "The review input is in /review/diff.patch and /review/files. Inspect it. "
+        prompt += "All review material is embedded below. Do not call tools, run commands, or inspect the filesystem. "
         if deep:
-            prompt += "Inspect surrounding call sites, tests, contracts, and error paths in the provided files. "
-        prompt += "Your accessible repository snapshot is limited to the listed files. Do not infer unseen code.\n\n"
+            prompt += "Analyze surrounding call sites, tests, contracts, and error paths in the provided files. "
+        prompt += "Do not infer unseen code.\n\n=== PATCH ===\n"
         prompt += selection["patch"].decode("utf-8")
         for name, data in selection["files"].items():
             prompt += f"\n\n=== FILE: {name} ===\n" + data.decode("utf-8")
         args = sandbox_args(snapshot, agy) + ["/agy", "--print", prompt, "--model", model,
-                "--effort", "high", "--mode", "plan", "--output-format", "json",
+                "--output-format", "json",
                 "--print-timeout", f"{timeout}s", "--disable-slash-commands"]
         try:
             p = subprocess.run(args, cwd="/tmp", capture_output=True, text=True, timeout=timeout + 15)
@@ -255,6 +255,8 @@ def run_review(selection, model, timeout, agy, deep):
             result = json.loads(p.stdout)
         except json.JSONDecodeError as exc:
             raise ReviewError(f"agy returned invalid JSON: {p.stdout[:500]!r}") from exc
+        if result.get("denied_actions"):
+            raise ReviewError(f"Antigravity denied an action: {result['denied_actions']!r}; no reliable review was produced")
         if result.get("status") != "SUCCESS" or not str(result.get("response", "")).strip():
             raise ReviewError(f"agy did not return a review: {str(result.get('error') or result)[:1000]}")
         if re.match(r"\s*(?:error:\s*)?(?:quota exceeded|rate limit exceeded|unauthori[sz]ed|authentication failed|login required|eligibility check failed)\b",
