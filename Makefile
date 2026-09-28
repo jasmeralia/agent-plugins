@@ -23,7 +23,7 @@ lint-shell:
 
 lint-python: $(VENV)/.installed
 	@echo "== ruff check =="
-	@$(RUFF) check plugins
+	@$(RUFF) check plugins skills
 
 lint-json:
 	@echo "== JSON syntax =="
