@@ -92,6 +92,9 @@ class ReviewTests(unittest.TestCase):
             fake.write_text("#!/usr/bin/python3\nprint('{\"status\":\"ERROR\",\"error\":\"quota exhausted\"}')\n")
             with self.assertRaisesRegex(review.ReviewError, "quota exhausted"):
                 review.run_review(selected, "gemini-3.1-pro-high", 5, str(fake), False)
+            fake.write_text("#!/usr/bin/python3\nprint('{\"status\":\"SUCCESS\",\"response\":\"partial\",\"denied_actions\":[{\"action\":\"command\"}]}')\n")
+            with self.assertRaisesRegex(review.ReviewError, "denied an action"):
+                review.run_review(selected, "gemini-3.1-pro-high", 5, str(fake), False)
         p = subprocess.run(["/usr/bin/python3", str(Path(__file__).with_name("review.py")),
                             "--repo", str(self.root), "--run", "--expect-sha256", "wrong"],
                            capture_output=True, text=True)
@@ -103,19 +106,21 @@ class ReviewTests(unittest.TestCase):
         selected = self.selected()
         fake = self.root / "fake-agy"
         fake.write_text("#!/usr/bin/python3\n"
-                        "from pathlib import Path\nimport json\n"
+                        "from pathlib import Path\nimport json, sys\n"
                         "p=Path('/review/files/name with spaces.py')\n"
                         "readable=p.read_text()=='changed = 1\\n'\n"
                         "try: p.write_text('tampered'); writable=True\n"
                         "except OSError: writable=False\n"
                         f"visible=Path({str(self.root)!r}).exists()\n"
-                        "print(json.dumps({'status':'SUCCESS','response':f'{readable}:{writable}:{visible}'}))\n")
+                        "flags_ok='--mode' not in sys.argv and '--effort' not in sys.argv\n"
+                        "print(json.dumps({'status':'SUCCESS','response':f'{readable}:{writable}:{visible}:{flags_ok}'}))\n")
         fake.chmod(0o755)
         token = self.root / "token"
         token.write_text("fake token")
         with patch.object(review, "AUTH", token):
-            result = review.run_review(selected, "gemini-3.1-pro-high", 5, str(fake), False)
-        self.assertEqual(result["raw_review"], "True:False:False")
+            result = review.run_review(selected, "gemini-3.1-pro-low", 5, str(fake), False)
+        self.assertEqual(result["raw_review"], "True:False:False:True")
+        self.assertEqual(result["model_requested"], "gemini-3.1-pro-low")
         self.assertEqual((self.root / "name with spaces.py").read_text(), "changed = 1\n")
 
 
