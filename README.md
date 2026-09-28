@@ -1,7 +1,7 @@
 # agent-plugins
 
 Morgan/Jasmeralia's Claude Code / Codex / Cursor hook conventions, packaged
-as installable plugins.
+as installable plugins, plus a standalone Codex review skill.
 
 Pattern: `hooks/hooks.json` declares the automation, `scripts/` holds
 whatever the hooks shell out to, and a marketplace manifest declares the
@@ -17,6 +17,29 @@ plugin(s) this repo distributes.
 | [`jasmeralia-nonbinary-hooks`](plugins/jasmeralia-nonbinary-hooks) | Nonbinary people/teams | Pronoun-slip guard for nonbinary people and nonbinary plugin users. |
 
 Each plugin's own README documents its hooks and any cross-ecosystem gaps.
+
+## Codex skill
+
+[`gemini-adversarial-review`](skills/gemini-adversarial-review/SKILL.md) requests
+an independent review through the authenticated Antigravity CLI (`agy`). It
+previews selected Git changes, then sends only the selected patch and files to
+Google from a read-only `bwrap` snapshot. It requires Linux, Git, Python 3,
+`bwrap`, and an authenticated `agy`; it does not use an API key or another
+provider. The skill is separate from the hook plugins and their marketplaces.
+
+Install or update it as a user-scoped Codex skill:
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills/gemini-adversarial-review"
+command cp -a skills/gemini-adversarial-review/. "${CODEX_HOME:-$HOME/.codex}/skills/gemini-adversarial-review/"
+```
+
+From a Codex or Kanna session, ask `Use $gemini-adversarial-review to review my
+changes` or `Use $gemini-adversarial-review to review this PR`. The skill
+previews the exact selection and requires its hash before submission. For a PR,
+it verifies the checked-out head and reviews committed changes against the
+PR's base. Run `python3 skills/gemini-adversarial-review/scripts/test_review.py`
+for the disposable Git fixture tests (requires `bwrap`).
 
 ## Cross-ecosystem support
 
@@ -56,7 +79,7 @@ different code path from Cursor's Claude-`settings.json` import shim).
 ## Linting
 
 ```
-make lint      # shellcheck + ruff + JSON syntax + yamllint
+make lint      # shellcheck + ruff (plugins and skill) + JSON syntax + yamllint
 make validate  # claude plugin validate for every plugin
 ```
 
